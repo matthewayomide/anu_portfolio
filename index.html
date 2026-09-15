@@ -235,28 +235,50 @@
     .video-card.hidden { display: none; }
     .video-card:hover {
       transform: translateY(-6px);
-      border-color: rgba(100, 255, 218, 0.25);
-      box-shadow: 0 20px 40px -15px rgba(100, 255, 218, 0.1);
+      border-color: rgba(100, 255, 218, 0.35);
+      box-shadow: 0 20px 40px -15px rgba(100, 255, 218, 0.15);
     }
+
+    /* -- Video Thumbnail (now shows the real Drive preview) -- */
     .video-thumb {
       width: 100%; height: 100%;
       background: linear-gradient(135deg, #0d2137, #1a3a4a);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       display: flex; align-items: center; justify-content: center;
       position: relative; transition: all 0.4s;
+      overflow: hidden;
     }
+    /* Dark gradient overlay for readability */
+    .video-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(7, 17, 26, 0.25), rgba(7, 17, 26, 0.6));
+      transition: background 0.4s;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .video-card:hover .video-thumb::after {
+      background: linear-gradient(180deg, rgba(7, 17, 26, 0.1), rgba(100, 255, 218, 0.2));
+    }
+
     .video-thumb .play-icon {
       width: 60px; height: 60px;
-      background: rgba(100, 255, 218, 0.1); border-radius: 50%;
+      background: rgba(7, 17, 26, 0.5); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.5rem; color: #64ffda;
-      border: 2px solid rgba(100, 255, 218, 0.2);
-      backdrop-filter: blur(4px); transition: all 0.4s; z-index: 2;
+      border: 2px solid rgba(100, 255, 218, 0.4);
+      backdrop-filter: blur(6px); transition: all 0.4s; z-index: 2;
       padding-left: 4px;
+      opacity: 0.9;
     }
     .video-card:hover .play-icon {
-      background: rgba(100, 255, 218, 0.25);
-      transform: scale(1.12);
-      box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
+      background: rgba(100, 255, 218, 0.35);
+      border-color: rgba(100, 255, 218, 0.7);
+      transform: scale(1.15);
+      box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
+      opacity: 1;
     }
 
     /* ============================================================
@@ -293,8 +315,9 @@
       width: 100%; aspect-ratio: 16 / 9; background: #07111a;
       display: flex; align-items: center; justify-content: center;
     }
-    .modal-video-wrapper video {
-      width: 100%; height: 100%; display: block; background: #000;
+    .modal-video-wrapper iframe {
+      width: 100%; height: 100%; display: block;
+      border: none; background: #000;
     }
 
     /* ============================================================
@@ -541,7 +564,7 @@
     </section>
 
     <!-- ==========================================================
-    VIDEO SHOWCASE — CLEAN TABBED GALLERY
+    VIDEO SHOWCASE
     ========================================================== -->
     <section id="showcase">
       <h2 class="section-title reveal">Director's <span>Cut</span></h2>
@@ -549,17 +572,6 @@
 
       <div class="tab-container reveal">
 
-        <!-- ==================================================
-             🏷️ TAB BUTTONS — EDIT THESE TO RENAME CATEGORIES
-             
-             HOW TO EDIT:
-             • To RENAME a tab: change the text between <button>...</button>
-             • To ADD a new category: copy a <button> line below and
-               give it a new data-filter value (e.g., "music").
-             • To REMOVE a tab: delete the entire <button> line.
-             • ⚠️ IMPORTANT: The data-filter value MUST match the
-               data-category on the video cards below.
-        =================================================== -->
         <div class="tab-buttons">
           <button class="tab-btn active" data-filter="all">All</button>
           <button class="tab-btn" data-filter="healthcare">Healthcare</button>
@@ -570,138 +582,136 @@
           <button class="tab-btn" data-filter="intro">Intro</button>
         </div>
 
-        <!-- ==================================================
-             🎬 VIDEO GRID — ONE GRID, ALL VIDEOS
-             
-             HOW TO EDIT:
-             • Each card has TWO key attributes:
-                 1. data-category = which tab it belongs to
-                 2. data-video    = path to the MP4 file
-             • To add a video: copy any <div class="video-card">...
-               and change the data-category and data-video.
-             • To remove a video: delete the entire <div class="video-card">.
-             • The data-category MUST match one of the tab's data-filter.
-        =================================================== -->
         <div class="video-grid" id="videoGrid">
 
           <!-- 🎥 VIDEO 1 -->
-          <div class="video-card" data-category="branding" data-video="videos/Ads1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #3a1a2a);">
+          <div class="video-card" data-category="branding" data-video="https://drive.google.com/file/d/18wqzVkgdhQDg3q6bx_X6hN-gRYvZAItU/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 2 -->
-          <div class="video-card" data-category="healthcare" data-video="videos/Acealth 2.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a3a2a, #2a4a3a);">
+          <div class="video-card" data-category="healthcare" data-video="https://drive.google.com/file/d/11npVnNDr7wXpkM5vf4pDQUnp6UI7I5r4/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
-          <!-- health care -->
 
           <!-- 🎥 VIDEO 3 -->
-          <div class="video-card" data-category="healthcare" data-video="videos/Acealth 3.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #2a1a3a, #3a2a4a);">
+          <div class="video-card" data-category="healthcare" data-video="https://drive.google.com/file/d/1u7_S6yHOO0A3tXmnmgzVyS6lede3PK2k/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 4 -->
-          <div class="video-card" data-category="healthcare" data-video="videos/Acealth1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #2a1a4a);">
+          <div class="video-card" data-category="healthcare" data-video="https://drive.google.com/file/d/1S84XUqxYJ4pH6VvoG2NrzuBfmt5gcaV7/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 5 -->
-          <div class="video-card" data-category="branding" data-video="videos/Ads 2.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #0f2a3b, #1a4a5a);">
+          <div class="video-card" data-category="branding" data-video="https://drive.google.com/file/d/1EpyJbQanmu85QN5czUm9E0Rq3wTWY0xU/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 6 -->
-          <div class="video-card" data-category="edtech" data-video="videos/lasucom.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <div class="video-card" data-category="edtech" data-video="https://drive.google.com/file/d/1e6VE6KXTjCPXmjcVGADIncqBgHOMKRDE/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-            <!-- 🎥 VIDEO 7 -->
-          <div class="video-card" data-category="edtech" data-video="videos/hkai.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <!-- 🎥 VIDEO 7 -->
+          <div class="video-card" data-category="edtech" data-video="https://drive.google.com/file/d/1KabqaDXUpO6rkqu6DTiDaYLCDnneYajG/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-             <!-- 🎥 VIDEO 8 -->
-          <div class="video-card" data-category="edtech" data-video="videos/mattTechies1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <!-- 🎥 VIDEO 8 -->
+          <div class="video-card" data-category="edtech" data-video="https://drive.google.com/file/d/16nFzuJeZ0-VJCnnL0F9ezJg8FyqagyZo/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 9 -->
-          <div class="video-card" data-category="animation" data-video="videos/animation1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #0a1a2a, #2a2a1a);">
+          <div class="video-card" data-category="animation" data-video="https://drive.google.com/file/d/1Tq-RUI-BosaFc-OIy2Wgveeb3iThsU87/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
           <!-- 🎥 VIDEO 10 -->
-          <div class="video-card" data-category="animation" data-video="videos/animation2.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a1a2a, #2a1a1a);">
-              <span class="play-icon">▶</span>
-            </div>
-          </div>
-          
- <!-- 🎥 VIDEO 11 -->
-          <div class="video-card" data-category="intro" data-video="videos/intro1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a1a2a, #2a1a1a);">
+          <div class="video-card" data-category="animation" data-video="https://drive.google.com/file/d/1JYZcxYm8ylcDP7PvX1Iq3t6mSke0zbU8/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-<!-- 🎥 VIDEO 12 -->
-          <div class="video-card" data-category="intro" data-video="videos/intro2.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a1a2a, #2a1a1a);">
+          <!-- 🎥 VIDEO 11 -->
+          <div class="video-card" data-category="intro" data-video="https://drive.google.com/file/d/1UXF5H0KJFdgOygEHrdoCi9u6-JjXLo4N/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-          
-<!-- 🎥 VIDEO 13 -->
-          <div class="video-card" data-category="motion graphics" data-video="videos/motion_graphics.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a1a2a, #2a1a1a);">
+          <!-- 🎥 VIDEO 12 -->
+          <div class="video-card" data-category="intro" data-video="https://drive.google.com/file/d/1cus4iYYVX8UhjDqHDQqYRISW3gbj7ER7/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-
-            <!-- 🎥 VIDEO 14 -->
-          <div class="video-card" data-category="edtech" data-video="videos/PHIGA.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <!-- 🎥 VIDEO 13 -->
+          <div class="video-card" data-category="motion graphics" data-video="https://drive.google.com/file/d/1cNhiGC-Oi0CUYsjWmoV4rUyuRzwomqHx/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-            <!-- 🎥 VIDEO 15 -->
-          <div class="video-card" data-category="healthcare" data-video="videos/medevine1.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <!-- 🎥 VIDEO 14 -->
+          <div class="video-card" data-category="edtech" data-video="https://drive.google.com/file/d/1FoxrfpiDgb-_GolKsSwzktw0A2vFjgSx/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
-            <!-- 🎥 VIDEO 14 -->
-          <div class="video-card" data-category="healthcare" data-video="videos/medevine2.mp4">
-            <div class="video-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a3a2a);">
+          <!-- 🎥 VIDEO 15 -->
+          <div class="video-card" data-category="healthcare" data-video="https://drive.google.com/file/d/1AlhYb3UgnRyIcZs5DusDWL9EsjVOYgDZ/view?usp=drive_link">
+            <div class="video-thumb">
               <span class="play-icon">▶</span>
             </div>
           </div>
 
+          <!-- 🎥 VIDEO 16 -->
+          <div class="video-card" data-category="healthcare" data-video="https://drive.google.com/file/d/1lvAigWvU1dv-cIpQYf6R4GhyTS7RrVwY/view?usp=drive_link">
+            <div class="video-thumb">
+              <span class="play-icon">▶</span>
+            </div>
+          </div>
 
+          <!-- 🎥 VIDEO 17 -->
+          <div class="video-card" data-category="edtech" data-video="https://drive.google.com/file/d/11Hq0qj69mju0gjM6H_TfDzl6A5fUvn2c/view?usp=drive_link">
+            <div class="video-thumb">
+              <span class="play-icon">▶</span>
+            </div>
+          </div>
 
-<!-- end of videos -->
+          <!-- 🎥 VIDEO 18 -->
+          <div class="video-card" data-category="animation" data-video="https://drive.google.com/file/d/1Aq4rHtxDYNsaAO4YBDUTUOLVF7YkNe9W/view?usp=drive_link">
+            <div class="video-thumb">
+              <span class="play-icon">▶</span>
+            </div>
+          </div>
+
+          <!-- 👇 ADD MORE VIDEOS HERE by copying any card above -->
+
         </div>
       </div>
     </section>
@@ -849,10 +859,7 @@
     <div class="modal-content">
       <button class="modal-close" id="modalClose">✕</button>
       <div class="modal-video-wrapper">
-        <video id="modalVideo" controls>
-          <source src="" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <iframe id="modalIframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -960,23 +967,15 @@
 
     // ============================================================
     // TAB FILTERING
-    // ------------------------------------------------------------
-    // Clicking a tab hides every video card whose data-category
-    // does NOT match the tab's data-filter.
-    // The "all" tab shows every card.
     // ============================================================
     const tabBtns = document.querySelectorAll('.tab-btn');
     const videoCards = document.querySelectorAll('.video-card');
 
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Highlight the active tab
         tabBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.dataset.filter;
-
-        // Show or hide each video card
         videoCards.forEach(card => {
           const category = card.dataset.category;
           if (filter === 'all' || category === filter) {
@@ -989,31 +988,80 @@
     });
 
     // ============================================================
-    // VIDEO MODAL
+    // GOOGLE DRIVE URL HELPERS
+    // ============================================================
+
+    // Extracts the FILE_ID from any Drive URL format
+    function extractFileId(url) {
+      if (!url) return null;
+      let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (match) return match[1];
+      match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (match) return match[1];
+      if (/^[a-zA-Z0-9_-]{20,}$/.test(url.trim())) return url.trim();
+      return null;
+    }
+
+    // Returns a playable embed URL
+    function getEmbedUrl(url) {
+      const id = extractFileId(url);
+      if (id) return 'https://drive.google.com/file/d/' + id + '/preview';
+      return url; // fallback
+    }
+
+    // Returns a thumbnail URL
+    function getThumbnailUrl(url) {
+      const id = extractFileId(url);
+      if (!id) return null;
+      return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1000';
+    }
+
+    // ============================================================
+    // AUTO-GENERATE VIDEO THUMBNAILS
+    // ------------------------------------------------------------
+    // Reads each card's data-video, extracts the Drive FILE_ID,
+    // and sets the thumbnail as the background of .video-thumb.
+    // If the thumbnail fails to load, the gradient fallback stays.
+    // ============================================================
+    document.querySelectorAll('.video-card').forEach(card => {
+      const videoUrl = card.dataset.video;
+      const thumbUrl = getThumbnailUrl(videoUrl);
+      const thumb = card.querySelector('.video-thumb');
+      if (thumbUrl && thumb) {
+        // Preload the image so we only apply it if it actually loads
+        const img = new Image();
+        img.onload = () => {
+          thumb.style.backgroundImage = "url('" + thumbUrl + "')";
+        };
+        img.onerror = () => {
+          // Silently keep gradient fallback
+        };
+        img.src = thumbUrl;
+      }
+    });
+
+    // ============================================================
+    // VIDEO MODAL (Google Drive embed)
     // ============================================================
     const modal = document.getElementById('videoModal');
     const modalClose = document.getElementById('modalClose');
-    const modalVideo = document.getElementById('modalVideo');
-    const videoSource = modalVideo.querySelector('source');
+    const modalIframe = document.getElementById('modalIframe');
 
     document.querySelectorAll('.video-card').forEach(card => {
       card.addEventListener('click', function() {
-        const videoUrl = this.dataset.video;
-        if (videoUrl && videoUrl !== '#') {
-          videoSource.src = videoUrl;
-          modalVideo.load();
-          modalVideo.play();
+        const rawUrl = this.dataset.video;
+        if (rawUrl && rawUrl !== '#') {
+          modalIframe.src = getEmbedUrl(rawUrl);
           modal.classList.add('active');
         } else {
-          alert('Please add a video path to data-video attribute');
+          alert('Please add a Google Drive link to the data-video attribute');
         }
       });
     });
 
     function closeModal() {
       modal.classList.remove('active');
-      modalVideo.pause();
-      modalVideo.currentTime = 0;
+      modalIframe.src = '';
     }
 
     modalClose.addEventListener('click', closeModal);
